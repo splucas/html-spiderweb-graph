@@ -13,6 +13,17 @@ body
     background-color: #1d1e20;
 }
 
+.graphContainer
+{
+    position: relative;
+}
+.graphContainer canvas
+{
+    position: absolute;
+    top:0px;
+    left:0px;
+    
+}
 
 .element-indicator
 {
