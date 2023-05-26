@@ -19,6 +19,52 @@ class SpiderGraph
         return [x,y];
     }
 
+    drawSegments(segCount, degOffset, strokeStyle)
+    {
+        let canvas = this.bgCanvas;
+        let context = canvas.getContext("2d");
+
+        context.strokeStyle = strokeStyle;
+        context.lineWidth   = 2;
+
+        // Draw the line segments
+        var segSize = 360 / segCount;
+        for(var cnt = 0; cnt < segCount; cnt ++)
+        {
+            var deg = cnt * segSize + degOffset
+            var xy = this.getXYAtDegree(deg, this.radius)
+
+            context.moveTo(this.centerX,this.centerY);
+            context.lineTo( xy[0], xy[1] );
+        }
+        context.stroke();
+
+        // Draw 'Notches'
+        context.fillStyle = strokeStyle;
+        var fullCircRads = 2*Math.PI
+        // Draw notch at "center"
+        context.beginPath();
+        context.arc( this.centerX, this.centerY, 3, 0, fullCircRads);
+        context.fill();
+
+        var maxNotchesPerSeg = 5;
+        var radiusPerNotchSeg = this.radius / maxNotchesPerSeg;
+        for(var notchCnt = 1; notchCnt < maxNotchesPerSeg; notchCnt ++)
+        {
+            for(var cnt = 0; cnt < segCount; cnt ++)
+            {
+                var deg = cnt * segSize + degOffset
+
+                var xy = this.getXYAtDegree(deg, radiusPerNotchSeg * notchCnt);
+                context.beginPath();
+                context.arc( xy[0], xy[1], 3, 0, fullCircRads);
+                context.fill();
+            }
+        }
+
+
+    }
+
     dragBackgroundCircle(fillColor, strokeColor, strokeWidth)
     {
         let canvas = this.bgCanvas;

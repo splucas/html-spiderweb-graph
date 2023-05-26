@@ -43,31 +43,29 @@
     var strokeColor = "#CCC"
     var strokeWidth = 5;
     var bgCanvas = document.getElementById("background");
+    var indicators = document.getElementsByClassName("element-indicator");
 
     var spidergraph = new SpiderGraph(radius, bgCanvas );
-    spidergraph.dragBackgroundCircle( 
-                    fillColor, 
-                    strokeColor, 
-                    strokeWidth
+    spidergraph.dragBackgroundCircle( fillColor, strokeColor, strokeWidth );
+    spidergraph.drawSegments( indicators.length, -90, strokeColor  )
 
-      )
 
-      var indicators = document.getElementsByClassName("element-indicator");
-      var degreesPerSegment = 360 / indicators.length;
-      for(cnt = 0; cnt < indicators.length; cnt ++)
-      {
-        let deg = cnt * degreesPerSegment;
-        // Start at the "top" of our circle graph (subtract 90)
-        let point = spidergraph.getXYAtDegree(deg-90, radius);
-        let element = indicators[cnt];
-        let eleOffW = element.offsetWidth / 2;
-        let eleoffH = element.offsetHeight / 2
-        let graphRect = bgCanvas.getBoundingClientRect();
-        element.style.left = point[0]-eleOffW + graphRect.left + "px";
-        element.style.top = point[1]-eleoffH + graphRect.top + "px";
-        
+    // Align the 'Indicators'
+    var degreesPerSegment = 360 / indicators.length;
+    for(cnt = 0; cnt < indicators.length; cnt ++)
+    {
+      let deg = cnt * degreesPerSegment;
+      // Start at the "top" of our circle graph (subtract 90)
+      let point = spidergraph.getXYAtDegree(deg-90, radius);
+      let element = indicators[cnt];
+      let eleOffW = element.offsetWidth / 2;
+      let eleoffH = element.offsetHeight / 2
+      let graphRect = bgCanvas.getBoundingClientRect();
+      element.style.left = point[0]-eleOffW + graphRect.left + "px";
+      element.style.top = point[1]-eleoffH + graphRect.top + "px";
+      
 
-      }
+    }
 
 
   </script>
