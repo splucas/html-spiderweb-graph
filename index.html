@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+    <title>HTML 5 Template</title>
+
+    <link rel="icon" href="favicon.png" type="image/png" sizes="32x32"/>
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <script src="js/spidergraph.js"></script>
+
+  </head>
+  <body>
+    <div>
+        Some Header
+        <p>
+          Here is a description of things...
+        </p>
+
+
+    </div>
+    <canvas id="background" width="640" height="640"></canvas>
+  
+    <div class="element-indicator">Fire</div>
+    <div class="element-indicator">Water</div>
+    <div class="element-indicator">Earth</div>
+    <div class="element-indicator">Air</div>
+    <div class="element-indicator">Metal</div>
+    
+  </body>
+
+
+
+  <script>
+        
+    var radius = 275;
+    var fillColor = "#888";
+    var strokeColor = "#CCC"
+    var strokeWidth = 5;
+    var bgCanvas = document.getElementById("background");
+
+    var spidergraph = new SpiderGraph(radius, bgCanvas );
+    spidergraph.dragBackgroundCircle( 
+                    fillColor, 
+                    strokeColor, 
+                    strokeWidth
+
+      )
+
+      var indicators = document.getElementsByClassName("element-indicator");
+      var degreesPerSegment = 360 / indicators.length;
+      for(cnt = 0; cnt < indicators.length; cnt ++)
+      {
+        let deg = cnt * degreesPerSegment;
+        // Start at the "top" of our circle graph (subtract 90)
+        let point = spidergraph.getXYAtDegree(deg-90, radius);
+        let element = indicators[cnt];
+        let eleOffW = element.offsetWidth / 2;
+        let eleoffH = element.offsetHeight / 2
+        let graphRect = bgCanvas.getBoundingClientRect();
+        element.style.left = point[0]-eleOffW + graphRect.left + "px";
+        element.style.top = point[1]-eleoffH + graphRect.top + "px";
+        
+
+      }
+
+
+  </script>
+
+</html>
