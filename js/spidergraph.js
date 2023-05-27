@@ -30,11 +30,15 @@ export class SpiderGraphElement extends HTMLElement
         this.radius     = this.getIntAttribute("radius",
                                              Math.min(this.width, this.height));
 
+        this.bgBorderThickness = this.getIntAttribute("bgBorderThickness", 5);
+        this.bgBorderColor     = this.getAttribute("bgBorderColor") || "#CCC";
+        this.bgFillColor       = this.getAttribute("bgFillColor")   || "#888";
+                                     
        
         // Graph background border and fill attributes
-        this.borderThickness = this.getIntAttribute("borderThickness", 5);
+        this.borderThickness = this.getIntAttribute("borderThickness", 2);
         this.borderColor     = this.getAttribute("borderColor") || "#CCC";
-        this.fillColor       = this.getAttribute("fillColor")   || "#888";
+        this.fillColor       = this.getAttribute("fillColor")   || "#DDD";
 
         // Axis attributes
         this.axisNames      = this.getAxisNames();        
@@ -42,6 +46,8 @@ export class SpiderGraphElement extends HTMLElement
         this.axisColor      = this.getAttribute("axisColor") || "#CCC";
         this.axisThickness  = this.getIntAttribute("axisThickness", 2);
         this.axisSegments   = this.getIntAttribute("axisSegments", 5);
+
+        
 
 
         // Build out the template
@@ -84,10 +90,10 @@ export class SpiderGraphElement extends HTMLElement
         // Draw the basic shape, width a stroked border
         context.beginPath();
         context.arc(centerX, centerY, this.radius, 0, 2 * Math.PI);
-        context.fillStyle = this.fillColor;
+        context.fillStyle = this.bgFillColor;
         context.fill();
-        context.lineWidth = this.borderThickness;
-        context.strokeStyle = this.borderColor;
+        context.lineWidth = this.bgBorderThickness;
+        context.strokeStyle = this.bgBorderColor;
         context.stroke();        
 
         // Draw Axis Lines
@@ -160,6 +166,11 @@ export class SpiderGraphElement extends HTMLElement
         var axisCount = this.axisNames.length;
         var arcDegrees = 360 / axisCount;
 
+
+        context.strokeStyle = this.borderColor;
+        context.lineWidth   = this.borderThickness;
+        
+
         context.beginPath();
         let startXY = null;
 
@@ -183,6 +194,7 @@ export class SpiderGraphElement extends HTMLElement
             
         }
         context.lineTo( startXY[0], startXY[1] );
+        context.fillStyle   = this.fillColor;
         context.fill()
         context.stroke();
         context.closePath();

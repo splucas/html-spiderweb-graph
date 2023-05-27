@@ -13,17 +13,6 @@ body
     background-color: #1d1e20;
 }
 
-.graphContainer
-{
-    position: relative;
-}
-.graphContainer canvas
-{
-    position: absolute;
-    top:0px;
-    left:0px;
-    
-}
 
 .element-indicator
 {
@@ -41,5 +30,18 @@ body
 .sliderContainer
 {
     position:absolute;
-    left: 640px;
+    top:220px;
+    left: 660px;
+}
+.sliderContainer label
+{
+    display:inline-block;
+    width:50px;
+    
+    text-align: right;
+}
+.sliderContainer input, .sliderContainer label
+{
+    height:1.5em;
+    vertical-align: middle;
 }

@@ -31,9 +31,14 @@
           height="640"
           radius="275"
 
-          borderThickness = "5"
-          borderColor = "#CCC"
-          fillColor = "#888"
+          bgBorderThickness = "5"
+          bgBorderColor = "#CCC"
+          bgFillColor = "#888"
+
+          borderThickness = "2"
+          borderColor = "#414449"
+          fillColor = "rgba(196, 196, 196, 0.75)" 
+
 
           axisOffset = "-90"
           axisNames = "Fire,Water,Earth,Air,Metal"
@@ -80,7 +85,7 @@
 
 
   <script>
-    var graphData = {"Fire":0.4, "Water":0.2, "Earth": .75, "Air":.25, "Metal":.25};
+    var graphData = {"Fire":0.4, "Water":0.1, "Earth": .95, "Air":.65, "Metal":.25};
     var spiderGraph = document.getElementById("spiderGraph");
 
     // Required to allow full creation/load/init of the graph element
@@ -96,6 +101,10 @@
         var eleoffH = ele.offsetHeight / 2 - graphRect.top;
         ele.style.left = xy[0] - eleOffW  +"px";
         ele.style.top = xy[1] - eleoffH + "px";
+
+        // Set Sliders...
+        ele = document.getElementById("range-" + axisName);
+        ele.value = graphData[axisName] * 100;
       }
 
       spiderGraph.setGraphData( graphData);
