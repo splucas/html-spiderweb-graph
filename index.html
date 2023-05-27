@@ -26,6 +26,7 @@
     </div>
       <div>
         <exp-spidergraph-comp 
+          id = "spiderGraph"
           width="640" 
           height="640"
           radius="275"
@@ -35,25 +36,19 @@
           fillColor = "#888"
 
           axisOffset = "-90"
-          axisNames = "Fire, Water, Earth, Air, Metal"
+          axisNames = "Fire,Water,Earth,Air,Metal"
           axisColor = "#CCC"
           axisThickness = "2"
           axisSegments = "7"
           
           > 
         </exp-spidergraph-comp>
-
-
-        <div class="graphContainer">
-          <canvas id="background" width="640" height="640"></canvas>
-          <canvas id="webgraphview" width="640" height="640"></canvas>
-        </div>
       
-        <div class="element-indicator">Fire</div>
-        <div class="element-indicator">Water</div>
-        <div class="element-indicator">Earth</div>
-        <div class="element-indicator">Air</div>
-        <div class="element-indicator">Metal</div>
+        <div class="element-indicator" id="indicator-Fire">Fire</div>
+        <div class="element-indicator" id="indicator-Water">Water</div>
+        <div class="element-indicator" id="indicator-Earth">Earth</div>
+        <div class="element-indicator" id="indicator-Air">Air</div>
+        <div class="element-indicator" id="indicator-Metal">Metal</div>
       </div>
 
     <div class="sliderContainer">
@@ -85,49 +80,36 @@
 
 
   <script>
-        
-    var radius = 275;
-    var fillColor = "#888";
-    var strokeColor = "#CCC"
-    var strokeWidth = 5;
-    var bgCanvas = document.getElementById("background");
-    var webCanvas = document.getElementById("webgraphview");
-    var indicators = document.getElementsByClassName("element-indicator");
+    var graphData = {"Fire":0.4, "Water":0.2, "Earth": .75, "Air":.25, "Metal":.25};
+    var spiderGraph = document.getElementById("spiderGraph");
 
-    var axisList = ["Fire", "Water", "Earth", "Air", "Metal"]
-
-    /*
-    var spidergraph = new SpiderGraph(axisList, radius, bgCanvas );
-    spidergraph.dragBackgroundCircle( fillColor, strokeColor, strokeWidth );
-    spidergraph.drawAxisList(-90, strokeColor  );
-
-    var graphData = {"Fire":0.4, "Water":0.2, "Earth": .75, "Air":.05, "Metal":.25};
-    spidergraph.drawWebGraph(graphData, webCanvas, -90);
-
-
-    // Align the 'Indicators'
-    var degreesPerSegment = 360 / indicators.length;
-    for(cnt = 0; cnt < indicators.length; cnt ++)
+    // Required to allow full creation/load/init of the graph element
+    document.addEventListener('DOMContentLoaded', function() 
     {
-      let deg = cnt * degreesPerSegment;
-      // Start at the "top" of our circle graph (subtract 90)
-      let point = spidergraph.getXYAtDegree(deg-90, radius);
-      let element = indicators[cnt];
-      let eleOffW = element.offsetWidth / 2;
-      let eleoffH = element.offsetHeight / 2
-      let graphRect = bgCanvas.getBoundingClientRect();
-      element.style.left = point[0]-eleOffW + graphRect.left + "px";
-      element.style.top = point[1]-eleoffH + graphRect.top + "px";
-      
+      var axisEndpoints = spiderGraph.getAxisEndpoints();
+      let graphRect = spiderGraph.getBoundingClientRect();
+      for(var axisName in axisEndpoints)
+      {
+        var ele = document.getElementById("indicator-" + axisName);
+        var xy = axisEndpoints[axisName];
+        var eleOffW = ele.offsetWidth / 2 - graphRect.left;
+        var eleoffH = ele.offsetHeight / 2 - graphRect.top;
+        ele.style.left = xy[0] - eleOffW  +"px";
+        ele.style.top = xy[1] - eleoffH + "px";
+      }
 
-    }
-    */
+      spiderGraph.setGraphData( graphData);
+      
+        
+    }, false);
+
+   
     function handleChangeSlider(theSlider)
     {
       var eleId = theSlider.id;
       var dataName  = eleId.replace("range-", "");
       graphData[dataName] = theSlider.value / 100;
-      spidergraph.drawWebGraph(graphData, webCanvas, -90);
+      spiderGraph.setGraphData(graphData);
 
     }
 
