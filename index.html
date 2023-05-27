@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Language" content="en">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
-    <title>HTML 5 Template</title>
+    <title>Spiderweb Graph Experiment</title>
 
     <link rel="icon" href="favicon.png" type="image/png" sizes="32x32"/>
     <link rel="stylesheet" href="css/styles.css">
@@ -17,9 +17,10 @@
   </head>
   <body>
     <div>
-        Some Header
+      <h1>Spiderweb Graph Experiment</h1>
         <p>
-          Here is a description of things...
+          Basic HTML5/CSS/JS custom web-component experiment to create a <br>
+          data-driven graph that looks something like a spiderweb
         </p>
 
 
@@ -59,23 +60,23 @@
     <div class="sliderContainer">
       <div>
         <label>Fire</label>
-        <input type="range" min="0" max="100" id="range-Fire" oninput="handleChangeSlider(this);"/>
+        <input type="range" min="0" max="100" id="range-Fire" oninput="handleRangeChange(this);"/>
       </div>
       <div>
         <label>Water</label>
-        <input type="range" min="0" max="100" id="range-Water" oninput="handleChangeSlider(this);"/>
+        <input type="range" min="0" max="100" id="range-Water" oninput="handleRangeChange(this);"/>
       </div>
       <div>
         <label>Earth</label>
-        <input type="range" min="0" max="100" id="range-Earth" oninput="handleChangeSlider(this);"/>
+        <input type="range" min="0" max="100" id="range-Earth" oninput="handleRangeChange(this);"/>
       </div>
       <div>
         <label>Air</label>
-        <input type="range" min="0" max="100" id="range-Air" oninput="handleChangeSlider(this);"/>
+        <input type="range" min="0" max="100" id="range-Air" oninput="handleRangeChange(this);"/>
       </div>
       <div>
         <label>Metal</label>
-        <input type="range" min="0" max="100" id="range-Metal" oninput="handleChangeSlider(this);"/>
+        <input type="range" min="0" max="100" id="range-Metal" oninput="handleRangeChange(this);"/>
       </div>
 
     </div>
@@ -112,8 +113,8 @@
         
     }, false);
 
-   
-    function handleChangeSlider(theSlider)
+    // Handle a change in the input[range] elements
+    function handleRangeChange(theSlider)
     {
       var eleId = theSlider.id;
       var dataName  = eleId.replace("range-", "");
