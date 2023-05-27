@@ -34,6 +34,8 @@
     <div class="element-indicator">Earth</div>
     <div class="element-indicator">Air</div>
     <div class="element-indicator">Metal</div>
+
+    
     
   </body>
 
@@ -46,11 +48,17 @@
     var strokeColor = "#CCC"
     var strokeWidth = 5;
     var bgCanvas = document.getElementById("background");
+    var webCanvas = document.getElementById("webgraphview");
     var indicators = document.getElementsByClassName("element-indicator");
 
-    var spidergraph = new SpiderGraph(radius, bgCanvas );
+    var axisList = ["Fire", "Water", "Earth", "Air", "Metal"]
+
+    var spidergraph = new SpiderGraph(axisList, radius, bgCanvas );
     spidergraph.dragBackgroundCircle( fillColor, strokeColor, strokeWidth );
-    spidergraph.drawSegments( indicators.length, -90, strokeColor  )
+    spidergraph.drawAxisList(-90, strokeColor  );
+
+    var graphData = {"Fire":0.4, "Water":0.2, "Earth": .75, "Air":.05, "Metal":.25};
+    spidergraph.drawWebGraph(graphData, webCanvas, -90);
 
 
     // Align the 'Indicators'

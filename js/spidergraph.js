@@ -2,12 +2,14 @@
 
 class SpiderGraph
 {
-    constructor(radius, backgroundCanvas)
+    constructor(axisList, radius, backgroundCanvas)
     {
+        this.axisList = axisList;
         this.radius = radius;
         this.bgCanvas = backgroundCanvas
         this.centerX = backgroundCanvas.width / 2;
         this.centerY = backgroundCanvas.height / 2;
+
 
     }
 
@@ -19,7 +21,7 @@ class SpiderGraph
         return [x,y];
     }
 
-    drawSegments(segCount, degOffset, strokeStyle)
+    drawAxisList( degOffset, strokeStyle)
     {
         let canvas = this.bgCanvas;
         let context = canvas.getContext("2d");
@@ -27,9 +29,10 @@ class SpiderGraph
         context.strokeStyle = strokeStyle;
         context.lineWidth   = 2;
 
+        var axisCount = this.axisList.length;
         // Draw the line segments
-        var segSize = 360 / segCount;
-        for(var cnt = 0; cnt < segCount; cnt ++)
+        var segSize = 360 / axisCount;
+        for(var cnt = 0; cnt < axisCount; cnt ++)
         {
             var deg = cnt * segSize + degOffset
             var xy = this.getXYAtDegree(deg, this.radius)
@@ -51,7 +54,7 @@ class SpiderGraph
         var radiusPerNotchSeg = this.radius / maxNotchesPerSeg;
         for(var notchCnt = 1; notchCnt < maxNotchesPerSeg; notchCnt ++)
         {
-            for(var cnt = 0; cnt < segCount; cnt ++)
+            for(var cnt = 0; cnt < axisCount; cnt ++)
             {
                 var deg = cnt * segSize + degOffset
 
@@ -84,9 +87,39 @@ class SpiderGraph
         context.stroke();
     }
 
-    getRadialLineEndpoints(lineCount)
+    // Drag the "web" graphic, essentially a line from axis to axis
+    drawWebGraph(graphData, webcanvas, degOffset)
     {
+        let context = webcanvas.getContext("2d");
+
+        var axisCount = this.axisList.length;
+        var segSize = 360 / axisCount;
+
+        context.beginPath();
+        let startXY = null;
+
+        for(var cnt = 0; cnt < axisCount; cnt ++)
+        {
+            var deg = cnt * segSize + degOffset
+            var axisName = this.axisList[cnt];
+            var axisValue = graphData[axisName]
+            var xy = this.getXYAtDegree(deg, this.radius * axisValue)
+
+            if(cnt == 0)
+            {
+                startXY = xy;
+                context.moveTo(xy[0], xy[1]);
+            }
+            else
+            {
+                context.lineTo( xy[0], xy[1] );
+            }
+            
+        }
+        context.lineTo( startXY[0], startXY[1] );
+        context.fill()
+        context.stroke();
+        context.closePath();
 
     }
-
 }
