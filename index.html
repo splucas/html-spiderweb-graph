@@ -104,7 +104,6 @@
 
     function handleChangeSlider(theSlider)
     {
-      console.log(theSlider.id);
       var eleId = theSlider.id;
       var dataName  = eleId.replace("range-", "");
       graphData[dataName] = theSlider.value / 100;
