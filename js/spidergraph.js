@@ -1,5 +1,3 @@
-
-
 class SpiderGraph
 {
     constructor(axisList, radius, backgroundCanvas)
@@ -124,3 +122,61 @@ class SpiderGraph
 
     }
 }
+
+
+export class SpiderGraphElement extends HTMLElement
+{
+    constructor()
+    {
+        super()
+
+        var h = this.getAttribute("height");
+        var w = this.getAttribute("width");
+
+        this.width = w;
+        this.height = h;
+
+        console.log("Building Things " + h + " " + w);
+        const template = document.createElement('template');
+        template.innerHTML = "<style>"+this.css()+"</style>" + this.template(w,h);
+
+        this.attachShadow({ mode: 'open' });
+        this.shadowRoot.appendChild(document.importNode(template.content, true))
+
+        
+    }
+
+    attributeChangedCallback(property, oldValue, newValue) 
+    {
+  
+      console.log(`Attr Changed:${property} ${oldValue} ${newValue}`)
+      if (oldValue === newValue) return;
+  //    this[ property ] = newValue;
+  
+      
+    }
+    connectedCallback() 
+    {
+      console.log("connectedCallback");
+      //this.render_data()
+    }
+
+    template(w,h)
+    {
+        return `
+        <div class="graphContainer">
+          <canvas id="background" width="${w}" height="${h}"></canvas>
+          <canvas id="webgraphview" width="${w}" height="${h}"></canvas>
+        </div>
+        `;
+    }
+    css()
+    {
+        return ``;
+    }
+}
+
+customElements.define("exp-spidergraph-comp", SpiderGraphElement);
+
+
+
