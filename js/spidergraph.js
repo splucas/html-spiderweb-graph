@@ -91,6 +91,7 @@ class SpiderGraph
     drawWebGraph(graphData, webcanvas, degOffset)
     {
         let context = webcanvas.getContext("2d");
+        context.clearRect(0,0, webcanvas.width, webcanvas.height);
 
         var axisCount = this.axisList.length;
         var segSize = 360 / axisCount;

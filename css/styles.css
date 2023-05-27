@@ -37,3 +37,9 @@ body
     line-height: 75px;
     font-size: 1.5em;
 }
+
+.sliderContainer
+{
+    position:absolute;
+    left: 640px;
+}

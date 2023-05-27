@@ -24,18 +24,42 @@
 
 
     </div>
-    <div class="graphContainer">
-      <canvas id="background" width="640" height="640"></canvas>
-      <canvas id="webgraphview" width="640" height="640"></canvas>
-    </div>
-  
-    <div class="element-indicator">Fire</div>
-    <div class="element-indicator">Water</div>
-    <div class="element-indicator">Earth</div>
-    <div class="element-indicator">Air</div>
-    <div class="element-indicator">Metal</div>
+      <div>
+        <div class="graphContainer">
+          <canvas id="background" width="640" height="640"></canvas>
+          <canvas id="webgraphview" width="640" height="640"></canvas>
+        </div>
+      
+        <div class="element-indicator">Fire</div>
+        <div class="element-indicator">Water</div>
+        <div class="element-indicator">Earth</div>
+        <div class="element-indicator">Air</div>
+        <div class="element-indicator">Metal</div>
+      </div>
 
-    
+    <div class="sliderContainer">
+      <div>
+        <label>Fire</label>
+        <input type="range" min="0" max="100" id="range-Fire" oninput="handleChangeSlider(this);"/>
+      </div>
+      <div>
+        <label>Water</label>
+        <input type="range" min="0" max="100" id="range-Water" oninput="handleChangeSlider(this);"/>
+      </div>
+      <div>
+        <label>Earth</label>
+        <input type="range" min="0" max="100" id="range-Earth" oninput="handleChangeSlider(this);"/>
+      </div>
+      <div>
+        <label>Air</label>
+        <input type="range" min="0" max="100" id="range-Air" oninput="handleChangeSlider(this);"/>
+      </div>
+      <div>
+        <label>Metal</label>
+        <input type="range" min="0" max="100" id="range-Metal" oninput="handleChangeSlider(this);"/>
+      </div>
+
+    </div>
     
   </body>
 
@@ -78,6 +102,15 @@
 
     }
 
+    function handleChangeSlider(theSlider)
+    {
+      console.log(theSlider.id);
+      var eleId = theSlider.id;
+      var dataName  = eleId.replace("range-", "");
+      graphData[dataName] = theSlider.value / 100;
+      spidergraph.drawWebGraph(graphData, webCanvas, -90);
+
+    }
 
   </script>
 
