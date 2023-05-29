@@ -86,20 +86,20 @@
 
 
   <script>
-    var graphData = {"Fire":0.4, "Water":0.1, "Earth": .95, "Air":.65, "Metal":.25};
-    var spiderGraph = document.getElementById("spiderGraph");
+    let graphData = {"Fire":0.4, "Water":0.1, "Earth": .95, "Air":.65, "Metal":.25};
+    let spiderGraph = document.getElementById("spiderGraph");
 
     // Required to allow full creation/load/init of the graph element
     document.addEventListener('DOMContentLoaded', function() 
     {
-      var axisEndpoints = spiderGraph.getAxisEndpoints();
+      let axisEndpoints = spiderGraph.getAxisEndpoints();
       let graphRect = spiderGraph.getBoundingClientRect();
       for(var axisName in axisEndpoints)
       {
-        var ele = document.getElementById("indicator-" + axisName);
-        var xy = axisEndpoints[axisName];
-        var eleOffW = ele.offsetWidth / 2 - graphRect.left;
-        var eleoffH = ele.offsetHeight / 2 - graphRect.top;
+        let ele = document.getElementById("indicator-" + axisName);
+        let xy = axisEndpoints[axisName];
+        let eleOffW = ele.offsetWidth / 2 - graphRect.left;
+        let eleoffH = ele.offsetHeight / 2 - graphRect.top;
         ele.style.left = xy[0] - eleOffW  +"px";
         ele.style.top = xy[1] - eleoffH + "px";
 
@@ -116,8 +116,8 @@
     // Handle a change in the input[range] elements
     function handleRangeChange(theSlider)
     {
-      var eleId = theSlider.id;
-      var dataName  = eleId.replace("range-", "");
+      let eleId = theSlider.id;
+      let dataName  = eleId.replace("range-", "");
       graphData[dataName] = theSlider.value / 100;
       spiderGraph.setGraphData(graphData);
 

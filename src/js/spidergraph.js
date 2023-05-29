@@ -7,12 +7,12 @@ export class SpiderGraphElement extends HTMLElement
     }
     getAxisNames()
     {
-        var anames = this.getAttribute("axisNames") || "";
-        var splits = anames.split(",");
-        var axisNames = []
-        for(var ndx in splits)
+        let anames = this.getAttribute("axisNames") || "";
+        let splits = anames.split(",");
+        let axisNames = []
+        for(let ndx in splits)
         {
-            var axisName = splits[ndx].trim();
+            let axisName = splits[ndx].trim();
             if(axisName.length > 0)
                 axisNames.push(axisName)
         }
@@ -51,9 +51,9 @@ export class SpiderGraphElement extends HTMLElement
 
 
         // Build out the template
-        var w = this.width;
-        var h = this.height;
-        const template = document.createElement('template');
+        let w = this.width;
+        let h = this.height;
+        let template = document.createElement('template');
         template.innerHTML = "<style>" 
                            + this.css(w,h)
                            + "</style>" 
@@ -71,22 +71,21 @@ export class SpiderGraphElement extends HTMLElement
 
     getXYAtDegree(degree, distance)
     {
-        var rads = degree * (Math.PI / 180);
-        var x = Math.cos(rads) * distance + this.centerX;
-        var y = Math.sin(rads) * distance + this.centerY;
-        return [x,y];
+        let rads = degree * (Math.PI / 180);
+        return [Math.cos(rads) * distance + this.centerX,
+                Math.sin(rads) * distance + this.centerY];
     }
 
 
 
     renderBackground()
     {
-        var shadow = this.shadowRoot;
-        var bgCanvas = shadow.querySelector("#background");
-        var context = bgCanvas.getContext("2d");
+        let shadow = this.shadowRoot;
+        let bgCanvas = shadow.querySelector("#background");
+        let context = bgCanvas.getContext("2d");
         
-        var centerX = this.centerX;
-        var centerY = this.centerY;
+        let centerX = this.centerX;
+        let centerY = this.centerY;
         // Draw the basic shape, width a stroked border
         context.beginPath();
         context.arc(centerX, centerY, this.radius, 0, 2 * Math.PI);
@@ -100,13 +99,15 @@ export class SpiderGraphElement extends HTMLElement
         context.strokeStyle = this.axisColor;
         context.lineWidth   = this.axisThickness;
         var axisCount = this.axisNames.length;
+        let xy = null;
+        let deg = null;
         if(axisCount > 0)
         {
-            var arcDegrees = 360 / axisCount;
+            let arcDegrees = 360 / axisCount;
             for(var cnt = 0; cnt < axisCount; cnt ++)
             {
-                var deg = cnt * arcDegrees + this.axisOffset;
-                var xy = this.getXYAtDegree(deg, this.radius);
+                deg = cnt * arcDegrees + this.axisOffset;
+                xy = this.getXYAtDegree(deg, this.radius);
                 context.moveTo(centerX,centerY);
                 context.lineTo( xy[0], xy[1] );
             }
@@ -114,7 +115,7 @@ export class SpiderGraphElement extends HTMLElement
         
             // Draw Axis Segment Notches
             context.fillStyle = this.axisColor;
-            var fullCircRads = 2*Math.PI
+            let fullCircRads = 2*Math.PI
             // Draw notch at "center"
             var drawCirc = (x,y, size) => {
                 context.beginPath();
@@ -123,14 +124,14 @@ export class SpiderGraphElement extends HTMLElement
             }
             drawCirc(centerX, centerY, 3);
 
-            var maxNotchesPerSeg = this.axisSegments;
-            var radiusPerNotchSeg = this.radius / maxNotchesPerSeg;
-            for(var notchCnt = 1; notchCnt < maxNotchesPerSeg; notchCnt ++)
+            let maxNotchesPerSeg = this.axisSegments;
+            let radiusPerNotchSeg = this.radius / maxNotchesPerSeg;
+            for(let notchCnt = 1; notchCnt < maxNotchesPerSeg; notchCnt ++)
             {
-                for(var cnt = 0; cnt < axisCount; cnt ++)
+                for(let cnt = 0; cnt < axisCount; cnt ++)
                 {
-                    var deg = cnt * arcDegrees + this.axisOffset
-                    var xy = this.getXYAtDegree(deg, radiusPerNotchSeg * notchCnt);
+                    deg = cnt * arcDegrees + this.axisOffset
+                    xy = this.getXYAtDegree(deg, radiusPerNotchSeg * notchCnt);
                     drawCirc(xy[0], xy[1], 3);
                 }
             }
@@ -139,15 +140,15 @@ export class SpiderGraphElement extends HTMLElement
     }
     getAxisEndpoints()
     {
-        var axisEndpoints = {}
-        var axisCount = this.axisNames.length;
+        let axisEndpoints = {}
+        let axisCount = this.axisNames.length;
         if(axisCount > 0)
         {
-            var arcDegrees = 360 / axisCount;
-            for(var cnt = 0; cnt < axisCount; cnt ++)
+            let arcDegrees = 360 / axisCount;
+            for(let cnt = 0; cnt < axisCount; cnt ++)
             {
-                var deg = cnt * arcDegrees + this.axisOffset;
-                var xy = this.getXYAtDegree(deg, this.radius);
+                let deg = cnt * arcDegrees + this.axisOffset;
+                let xy = this.getXYAtDegree(deg, this.radius);
                 axisEndpoints[ this.axisNames[cnt]] = xy;
             }
         }
@@ -157,14 +158,14 @@ export class SpiderGraphElement extends HTMLElement
     // Drag the "web" graphic, essentially a line from axis to axis
     setGraphData( data )
     {
-        var shadow = this.shadowRoot;
-        var canvas = shadow.querySelector("#webgraphview");
-        var context = canvas.getContext("2d");
+        let shadow = this.shadowRoot;
+        let canvas = shadow.querySelector("#webgraphview");
+        let context = canvas.getContext("2d");
         context.clearRect(0,0, canvas.width, canvas.height);
 
 
-        var axisCount = this.axisNames.length;
-        var arcDegrees = 360 / axisCount;
+        let axisCount = this.axisNames.length;
+        let arcDegrees = 360 / axisCount;
 
 
         context.strokeStyle = this.borderColor;
@@ -176,11 +177,11 @@ export class SpiderGraphElement extends HTMLElement
 
         for(var cnt = 0; cnt < axisCount; cnt ++)
         {
-            var deg = cnt * arcDegrees + this.axisOffset
-            var axisName = this.axisNames[cnt];
-            var axisValue = data[axisName]
+            let deg = cnt * arcDegrees + this.axisOffset
+            let axisName = this.axisNames[cnt];
+            let axisValue = data[axisName]
 
-            var xy = this.getXYAtDegree(deg, this.radius * axisValue)
+            let xy = this.getXYAtDegree(deg, this.radius * axisValue)
 
             if(cnt == 0)
             {
